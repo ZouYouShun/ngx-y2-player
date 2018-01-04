@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Y2PlayerComponent, Y2PlayerOptions } from './y2-player/y2-player.component';
+import { NgxY2PlayerComponent, NgxY2PlayerOptions } from './y2-player/y2-player.component';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +7,9 @@ import { Y2PlayerComponent, Y2PlayerOptions } from './y2-player/y2-player.compon
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  @ViewChild('video') video: Y2PlayerComponent;
+  @ViewChild('video') video: NgxY2PlayerComponent;
 
-  playerOptions: Y2PlayerOptions = {
+  playerOptions: NgxY2PlayerOptions = {
     videoId: 'z8WdQsPknf0',
     height: 500,
     width: 500,

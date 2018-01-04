@@ -4,7 +4,7 @@ import { AfterContentInit, Component, ElementRef, EventEmitter, Input, Output, R
 
 import { Y2PlayerService } from './y2-player.service';
 
-export interface Y2PlayerOptions {
+export interface NgxY2PlayerOptions {
   videoId: string;
   width?: number;
   height?: number;
@@ -12,12 +12,12 @@ export interface Y2PlayerOptions {
 }
 
 @Component({
-  selector: 'y2-player',
+  selector: 'ngx-y2-player',
   templateUrl: './y2-player.component.html',
   styleUrls: ['./y2-player.component.scss']
 })
-export class Y2PlayerComponent implements AfterContentInit {
-  @Input('playerOptions') private playerOptions: Y2PlayerOptions;
+export class NgxY2PlayerComponent implements AfterContentInit {
+  @Input('playerOptions') private playerOptions: NgxY2PlayerOptions;
   @Output('ready') ready = new EventEmitter();
   @Output('change') change = new EventEmitter();
 

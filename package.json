@@ -10,7 +10,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "deploy:github": "ng build --prod --build-optimizer --base-href=https://zouyoushun.github.io/ngx-y2-player/ && ngh"
   },
   "private": true,
   "dependencies": {

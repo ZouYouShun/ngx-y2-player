@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
-import { Y2PlayerModule } from './y2-player/y2-player.module';
+import { NgxY2PlayerModule } from './y2-player/y2-player.module';
 
 
 @NgModule({
@@ -12,7 +12,7 @@ import { Y2PlayerModule } from './y2-player/y2-player.module';
   ],
   imports: [
     BrowserModule,
-    Y2PlayerModule.forRoot()
+    NgxY2PlayerModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
