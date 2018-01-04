@@ -120,7 +120,7 @@ export class AppComponent {
 ## Attribute
 
 | Attribute | necessary |  type | description |
-| --------- | --------- | ---- | -------- | ----------- |
+| --------- | --------- | ---- | -------- |
 | [playerOptions] | yes | Input(NgxY2PlayerOptions) | NgxY2PlayerOptions with [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference)  |
 | (ready) | no | Output(function($event)) | when video ready emit value |
 | (change) | no | Output(function($event)) | when video state change emit value |
