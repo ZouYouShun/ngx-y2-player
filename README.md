@@ -10,7 +10,6 @@ https://zouyoushun.github.io/ngx-y2-player/
 
 ```
 npm install ngx-y2-player
-npm install @types/youtube
 ```
 * tsconfig.app.json
 ```json
