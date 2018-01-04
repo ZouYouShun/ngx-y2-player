@@ -1,6 +1,6 @@
 {
   "name": "ngx-y2-player",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf package-lock.json node_modules",
