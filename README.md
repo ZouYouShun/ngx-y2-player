@@ -11,24 +11,6 @@ https://zouyoushun.github.io/ngx-y2-player/
 ```
 npm install ngx-y2-player
 ```
-* tsconfig.app.json
-```json
-{
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../out-tsc/app",
-    "baseUrl": "./",
-    "module": "es2015",
-    "types": [  //add youtube in the types
-      "youtube"
-    ]
-  },
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts"
-  ]
-}
-```
 
 # Usage
 
