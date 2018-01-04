@@ -1,5 +1,6 @@
 import 'rxjs/add/operator/filter';
 
+import { Observable } from 'rxjs/Observable';
 import { Injectable, Renderer2 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
