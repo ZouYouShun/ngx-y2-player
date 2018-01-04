@@ -3,8 +3,8 @@
 Angular youtube player by [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference) support SSR.
 
 # Demo 
-![](https://res.cloudinary.com/dw7ecdxlp/image/upload/v1515048453/ngx-y2-player_rgfqjo.gif)
 https://zouyoushun.github.io/ngx-y2-player/
+![](https://res.cloudinary.com/dw7ecdxlp/image/upload/v1515048453/ngx-y2-player_rgfqjo.gif)
 
 1. install
 
