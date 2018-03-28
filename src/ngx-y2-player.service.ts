@@ -1,8 +1,9 @@
-import 'rxjs/add/operator/filter';
 
 import { Observable } from 'rxjs/Observable';
-import { Injectable, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, PLATFORM_ID, Inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { filter } from 'rxjs/operators';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable()
 export class Y2PlayerService {
@@ -10,16 +11,12 @@ export class Y2PlayerService {
 
   private loadComplete = new BehaviorSubject(false);
 
-  get window() {
-    if (window) {
-      return window;
-    }
-  }
-
-  constructor() { }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
   ready() {
-    return this.loadComplete.filter(state => state === true);
+    return this.loadComplete.pipe(
+      filter(state => state === true)
+    );
   }
 
   loadY2Api(elm: HTMLAnchorElement, render: Renderer2) {
@@ -31,16 +28,16 @@ export class Y2PlayerService {
       this.isLoadApi = true;
       const tag = render.createElement('script');
       render.setAttribute(tag, 'src', 'https://www.youtube.com/player_api');
-      const firstScriptTag = render.selectRootElement('script'); // 會取道第一個
+      const firstScriptTag = render.selectRootElement('script'); // it will get the first one script
       render.insertBefore(firstScriptTag.parentNode, tag, firstScriptTag);
 
-      const publicReady = () => {
-        if (this.window) {
-          console.log('api load!');
+      if (isPlatformBrowser(this.platformId)) {
+        const publicReady = () => {
+          // console.log('api load!');
           this.loadComplete.next(true);
-        }
-      };
-      this.window['onYouTubeIframeAPIReady'] = publicReady;
+        };
+        window['onYouTubeIframeAPIReady'] = publicReady;
+      }
     }
 
     return id;
