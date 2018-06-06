@@ -1,11 +1,12 @@
 
-import { Observable } from 'rxjs/Observable';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Injectable, Renderer2, PLATFORM_ID, Inject } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { filter } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class Y2PlayerService {
   private isLoadApi = false;
 
@@ -19,7 +20,7 @@ export class Y2PlayerService {
     );
   }
 
-  loadY2Api(elm: HTMLAnchorElement, render: Renderer2) {
+  loadY2Api(elm: HTMLElement, render: Renderer2) {
     const id = this.createVideoId();
     render.setAttribute(elm, 'id', id);
 

@@ -30,7 +30,7 @@ import { NgxY2PlayerModule } from 'ngx-y2-player';
 
 @NgModule({
   declarations: [ ...something... ],
-  imports: [ ...something... , NgxY2PlayerModule.forRoot()], // forRoot only in the app.module
+  imports: [ ...something... , NgxY2PlayerModule],
   providers: [ ...something... ],
   bootstrap: [ ...something... ]
 })

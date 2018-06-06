@@ -25,8 +25,8 @@ export interface NgxY2PlayerOptions {
 
 @Component({
   selector: 'ngx-y2-player',
-  templateUrl: './ngx-y2-player.component.html',
-  styleUrls: ['./ngx-y2-player.component.scss']
+  template: '',
+  styles: []
 })
 export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
   @Input('playerOptions') private playerOptions: NgxY2PlayerOptions;
