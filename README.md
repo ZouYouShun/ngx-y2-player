@@ -2,6 +2,8 @@
 
 Angular youtube player can auto resize with container, and full controll with [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference) support SSR.
 
+Upgrade to Angular 6+ and Rxjs6+
+
 # Demo 
 
 ### Video ready and change event
@@ -118,7 +120,7 @@ export class AppComponent {
 | Attribute | necessary |  type | description |
 | --------- | --------- | ---- | -------- |
 | [playerOptions] | yes | Input(NgxY2PlayerOptions) | NgxY2PlayerOptions with [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference)  |
-| [container] | no | Input(Template Element) | when set width or height 'auto', it will use this element to set player size auto |
+| [container] | yes | Input(Template Element) | when set width or height 'auto', it will use this element to set player size auto |
 | (ready) | no | Output(function($event)) | when video ready emit value |
 | (change) | no | Output(function($event)) | when video state change emit value |
 
