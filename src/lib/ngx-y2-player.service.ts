@@ -1,5 +1,5 @@
 
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Injectable, Renderer2, PLATFORM_ID, Inject } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';

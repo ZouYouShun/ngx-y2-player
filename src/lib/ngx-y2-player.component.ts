@@ -33,8 +33,8 @@ export interface NgxY2PlayerOptions {
   styles: []
 })
 export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
-  @Input('playerOptions') private playerOptions: NgxY2PlayerOptions;
-  @Input('container') private containerElm: HTMLElement;
+  @Input('playerOptions') playerOptions: NgxY2PlayerOptions;
+  @Input('container') containerElm: HTMLElement;
   private initHeight = 0;
 
   @Output('ready') ready = new EventEmitter();
@@ -54,9 +54,7 @@ export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.tagId = this._y2.loadY2Api(this.player.nativeElement, this._renderer);
-    if (this.containerElm) {
-      this.initHeight = this.containerElm.offsetHeight;
-    }
+    if (this.containerElm) { this.initHeight = this.containerElm.offsetHeight; }
 
     this._y2.ready().pipe(
       take(1)
