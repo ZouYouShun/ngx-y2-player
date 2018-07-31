@@ -1,29 +1,21 @@
-# NgxY2Player
+# ngx-y2-player
 
-Angular youtube player can auto resize with container, and full controll with [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference) support SSR.
+Angular 6+ youtube player can auto resize with container, and full controll with [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference) support SSR.
 
-Upgrade to Angular 6+ and Rxjs6+
+## Description
 
-# Demo 
+Youtube player with with [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference), complete response with device, provide an sample way for use youbute player.
 
-### Video ready and change event
-https://zouyoushun.github.io/ngx-y2-player/
-![](https://res.cloudinary.com/dw7ecdxlp/image/upload/v1515048453/ngx-y2-player_rgfqjo.gif)
+## Example
+[https://alanzouhome.firebaseapp.com/package/NgxY2Player](https://alanzouhome.firebaseapp.com/package/NgxY2Player)
 
+## Install
 
-### Auto resize with container, not outdistance of container with height
-![](https://res.cloudinary.com/dw7ecdxlp/image/upload/v1522162592/y2-resize_halygm.gif)
-
-![](https://res.cloudinary.com/dw7ecdxlp/image/upload/v1522212498/y2-resize2_ugo8sj.gif)
-
-
-# install
-
-```
+```ts
 npm install ngx-y2-player
 ```
 
-# Usage
++ Import `NgxY2PlayerModule` into your main AppModule or the module where you want use.
 
 1. Module
 
@@ -37,7 +29,6 @@ import { NgxY2PlayerModule } from 'ngx-y2-player';
   bootstrap: [ ...something... ]
 })
 export class AppModule {
-  ...something...
 }
 ```
 
@@ -83,6 +74,8 @@ export class AppComponent {
     videoId: 'z8WdQsPknf0',
     height: 500, // you can set 'auto', it will use container width to set size
     width: 500,
+    // when container resize, it will call resize function, you can custom this by set resizeDebounceTime, default is 200
+    resizeDebounceTime: 0,
     playerVars: {
       autoplay: 1,
     },
@@ -119,10 +112,10 @@ export class AppComponent {
 
 | Attribute | necessary |  type | description |
 | --------- | --------- | ---- | -------- |
-| [playerOptions] | yes | Input(NgxY2PlayerOptions) | NgxY2PlayerOptions with [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference)  |
-| [container] | yes | Input(Template Element) | when set width or height 'auto', it will use this element to set player size auto |
-| (ready) | no | Output(function($event)) | when video ready emit value |
-| (change) | no | Output(function($event)) | when video state change emit value |
+| `[playerOptions]` | yes | Input(NgxY2PlayerOptions) | NgxY2PlayerOptions with [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference)  |
+| `[container]` | no | Input(Template Element) | when set width or height 'auto', it will use this element to set player size auto |
+| `(ready)` | no | Output(function($event)) | when video ready emit value |
+| `(change)` | no | Output(function($event)) | when video state change emit value |
 
 
 ### NgxY2PlayerOptions
@@ -131,8 +124,9 @@ export interface NgxY2PlayerOptions {
   videoId: string;
   width?: number | 'auto';
   height?: number | 'auto';
+  resizeDebounceTime?: number;
   playerVars?: YT.PlayerVars;
   aspectRatio?: number;
 }
 ```
-You can see vars in the https://developers.google.com/youtube/player_parameters#Parameters
+You can see all playerVars in the https://developers.google.com/youtube/player_parameters#Parameters

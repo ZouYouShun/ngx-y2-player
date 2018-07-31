@@ -1,6 +1,13 @@
+## 1.3.0
+
+### Change Resize detect with [resize-observer-polyfill](https://github.com/que-etc/resize-observer-polyfill)
+* Change Resize detect with [resize-observer-polyfill]
+* Fix Resize problem with window.
+* Add Example with custom player.
+
 ## 1.2.0
 
-### Change packge tool to NgPackgr
+### Change package tool to NgPackgr
 * Using ng g lib to generate lib
 * Upgrade to Angular 6+ and Rxjs6+
 
