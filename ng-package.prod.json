@@ -5,6 +5,8 @@
     "entryFile": "src/public_api.ts"
   },
   "whitelistedNonPeerDependencies": [
-    "@types/youtube"
+    "@types/youtube",
+    "resize-observer-polyfill",
+    "hammerjs"
   ]
 }
