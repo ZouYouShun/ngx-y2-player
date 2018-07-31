@@ -8,6 +8,15 @@ Youtube player with with [Youtube IFrame Player API](https://developers.google.c
 
 ## Example
 [https://alanzouhome.firebaseapp.com/package/NgxY2Player](https://alanzouhome.firebaseapp.com/package/NgxY2Player)
+![](https://res.cloudinary.com/dw7ecdxlp/image/upload/v1515048453/ngx-y2-player_rgfqjo.gif)
+
+
+### Auto resize with container, not outdistance of container with height
+![](https://res.cloudinary.com/dw7ecdxlp/image/upload/v1522162592/y2-resize_halygm.gif)
+
+![](https://res.cloudinary.com/dw7ecdxlp/image/upload/v1522212498/y2-resize2_ugo8sj.gif)
+
+
 
 ## Install
 
