@@ -41,7 +41,7 @@ export class AppModule {
 }
 ```
 
-3. HTML
+2. HTML
 
 ```html
 <div style="width:80%; height:500px;" #container>

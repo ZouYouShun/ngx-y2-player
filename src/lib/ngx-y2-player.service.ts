@@ -1,5 +1,5 @@
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable, Renderer2, PLATFORM_ID, Inject } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
@@ -14,7 +14,7 @@ export class Y2PlayerService {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
-  ready() {
+  ready(): Observable<boolean> {
     return this.loadComplete.pipe(
       filter(state => state === true)
     );
