@@ -1,3 +1,8 @@
+## 1.4.0
+
+### Refactory Project
+* refactory code with rxjs and more maintainable
+
 ## 1.3.0
 
 ### Change Resize detect with [resize-observer-polyfill](https://github.com/que-etc/resize-observer-polyfill)
