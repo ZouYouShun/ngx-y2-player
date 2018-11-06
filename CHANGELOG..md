@@ -1,3 +1,7 @@
+## 1.4.1
+
+* **Change peerDependencies to more than 6.0.0:** Change peerDependencies to more than 6.0.0
+
 ## 1.4.0
 
 ### Refactory Project
