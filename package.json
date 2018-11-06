@@ -1,6 +1,6 @@
 {
   "name": "ngx-y2-player",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "dependencies": {
     "@types/youtube": "0.0.32",
     "resize-observer-polyfill": "^1.5.0",
@@ -9,6 +9,6 @@
   },
   "peerDependencies": {
     "@angular/common": ">=6.0.0",
-    "@angular/core": "^>=6.0.0"
+    "@angular/core": ">=6.0.0"
   }
 }
