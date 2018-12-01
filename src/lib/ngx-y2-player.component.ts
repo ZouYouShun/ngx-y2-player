@@ -148,11 +148,13 @@ export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
           this._zoun.run(() => this.onReady.emit(e));
         }
 
-        if (this.playerOptions.playerVars) {
-          if (this.playerOptions.playerVars.autoplay) {
-            this.videoPlayer.loadPlaylist(this.videoId);
-          } else {
-            this.videoPlayer.cuePlaylist(this.videoId);
+        if (this.videoId instanceof Array) {
+          if (this.playerOptions.playerVars) {
+            if (this.playerOptions.playerVars.autoplay) {
+              this.videoPlayer.loadPlaylist(this.videoId);
+            } else {
+              this.videoPlayer.cuePlaylist(this.videoId);
+            }
           }
         }
       });

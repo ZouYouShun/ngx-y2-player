@@ -47,10 +47,11 @@ export class AppModule {
 <div style="width:80%; height:500px;" #container>
   <ngx-y2-player
     #video
+    [videoId]="videoId"
     [playerOptions]="playerOptions"
     [container]="container"
     (ready)="onReady($event)"
-    (change)="onStateChange($event)"
+    (stateChange)="onStateChange($event)"
     >
   </ngx-y2-player>
 </div>
@@ -78,9 +79,9 @@ import { NgxY2PlayerComponent, NgxY2PlayerOptions } from 'ngx-y2-player';
 })
 export class AppComponent {
   @ViewChild('video') video: NgxY2PlayerComponent;
+  videoId: 'z8WdQsPknf0'; // string or string array;
 
   playerOptions: NgxY2PlayerOptions = {
-    videoId: 'z8WdQsPknf0',
     height: 500, // you can set 'auto', it will use container width to set size
     width: 500,
     // when container resize, it will call resize function, you can custom this by set resizeDebounceTime, default is 200
@@ -121,20 +122,25 @@ export class AppComponent {
 
 | Attribute | necessary |  type | description |
 | --------- | --------- | ---- | -------- |
+| `[videoId]` | yes | Input(`string` or `string[]`) | video id with player, accept with string or string array, change this input will change player video. |
 | `[playerOptions]` | yes | Input(NgxY2PlayerOptions) | NgxY2PlayerOptions with [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference)  |
 | `[container]` | no | Input(Template Element) | when set width or height 'auto', it will use this element to set player size auto |
 | `(ready)` | no | Output(function($event)) | when video ready emit value |
-| `(change)` | no | Output(function($event)) | when video state change emit value |
-
+| `(stateChange)` | no | Output(function($event)) | when video state change emit value |
+| `(playbackQualityChange)` | no | Output(function($event)) | Event fired when the playback quality of the player changes |
+| `(playbackRateChange)` | no | Output(function($event)) | Event fired when the playback rate of the player changes |
+| `(error)` | no | Output(function($event)) | Event fired when an error in the player occurs |
+| `(apiChange)` | no | Output(function($event)) | Event fired to indicate thath the player has loaded, or unloaded, a module with exposed API methods. This currently only occurs for closed captioning. |
 
 ### NgxY2PlayerOptions
 ```ts
 export interface NgxY2PlayerOptions {
-  videoId: string;
   width?: number | 'auto';
   height?: number | 'auto';
-  resizeDebounceTime?: number;
   playerVars?: YT.PlayerVars;
+  host?: string;
+
+  resizeDebounceTime?: number;
   aspectRatio?: number;
 }
 ```
