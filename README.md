@@ -1,3 +1,5 @@
+[![NPM version](https://badge.fury.io/js/ngx-y2-player.svg)](http://badge.fury.io/js/ngx-y2-player)
+
 # ngx-y2-player
 
 Angular 6+ youtube player can auto resize with container, and full controll with [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference) support SSR.
