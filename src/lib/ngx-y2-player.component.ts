@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -18,33 +19,64 @@ import { Y2PlayerService } from './ngx-y2-player.service';
 import { resizeObservable } from './rxjs.observable.resize';
 
 export interface NgxY2PlayerOptions {
-  videoId: string;
   width?: number | 'auto';
   height?: number | 'auto';
-  resizeDebounceTime?: number;
   playerVars?: YT.PlayerVars;
+  host?: string;
+
+  resizeDebounceTime?: number;
   aspectRatio?: number;
 }
 
 @Component({
   selector: 'ngx-y2-player',
   template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
   @Input('playerOptions') playerOptions: NgxY2PlayerOptions;
   @Input('container') containerElm: HTMLElement;
-  private initHeight = 0;
 
-  @Output('ready') ready = new EventEmitter();
-  @Output('change') change = new EventEmitter();
+  @Input('videoId')
+  get videoId() {
+    // if there is not set id, use oprion's id
+    return this._videoId;
+  }
+  set videoId(value) {
+    this._videoId = value;
+    if (this.videoPlayer) {
+      if (this.videoPlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+        if (value instanceof Array) {
+          this.videoPlayer.loadPlaylist(value);
+        } else {
+          this.videoPlayer.loadVideoById(value);
+        }
+      } else {
+        if (value instanceof Array) {
+          this.videoPlayer.cuePlaylist(value);
+        } else {
+          this.videoPlayer.cueVideoById(value);
+        }
+      }
+    }
+  }
+
+  @Output('ready') onReady = new EventEmitter();
+  @Output('stateChange') onStateChange = new EventEmitter();
+  @Output('playbackQualityChange') onPlaybackQualityChange = new EventEmitter();
+  @Output('playbackRateChange') onPlaybackRateChange = new EventEmitter();
+  @Output('error') onError = new EventEmitter();
+  @Output('apiChange') onApiChange = new EventEmitter();
 
   videoPlayer: YT.Player;
 
+  private _videoId: string | string[];
+  private initHeight = 0;
   private resize$: Subscription;
 
   constructor(
     private _y2: Y2PlayerService,
-    private player: ElementRef,
+    private _elm: ElementRef,
     private _zoun: NgZone,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
@@ -53,7 +85,7 @@ export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
 
     if (this.containerElm) { this.initHeight = this.containerElm.offsetHeight; }
 
-    this._y2.loadY2Api(this.player.nativeElement).pipe(
+    this._y2.loadY2Api(this._elm.nativeElement).pipe(
       switchMap(id => this._y2.ready().pipe(mapTo(id))),
       map(id => {
         let width = 800;
@@ -83,26 +115,66 @@ export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
       }),
       tap(({ id, width, height }) => {
 
-        this.videoPlayer = new YT.Player(id, {
+        const option: YT.PlayerOptions = {
           width,
           height,
-          videoId: this.playerOptions.videoId,
-          events: {
-            onReady: (event) => {
-              this._zoun.run(() => {
-                this.ready.emit(event);
-              });
-            },
-            onStateChange: (event) => {
-              this._zoun.run(() => {
-                this.change.emit(event);
-              });
-            }
-          },
-          playerVars: this.playerOptions.playerVars
-        });
+          playerVars: this.playerOptions.playerVars || {}
+        };
+
+        if (this.playerOptions.host) {
+          option.host = this.playerOptions.host;
+        }
+        if (this.videoId instanceof Array) {
+          option.playerVars.listType = 'player';
+        } else {
+          option.videoId = this.videoId;
+        }
+
+        this.videoPlayer = new YT.Player(id, option);
+
+        this.checkAddAllYTEvent();
       })
     ).subscribe();
+  }
+
+  private checkAddAllYTEvent() {
+
+    // check ready event
+    if (this.videoId instanceof Array || this.onReady.observers.length > 0) {
+      this.videoPlayer.addEventListener('onReady', (e) => {
+
+        if (this.onReady.observers.length > 0) {
+          // run in zone
+          this._zoun.run(() => this.onReady.emit(e));
+        }
+
+        if (this.playerOptions.playerVars) {
+          if (this.playerOptions.playerVars.autoplay) {
+            this.videoPlayer.loadPlaylist(this.videoId);
+          } else {
+            this.videoPlayer.cuePlaylist(this.videoId);
+          }
+        }
+      });
+    }
+
+    // check other event
+    [
+      'onStateChange',
+      'onPlaybackQualityChange',
+      'onPlaybackRateChange',
+      'onError',
+      'onApiChange'
+    ].forEach((eventId: any) => {
+      // check this output has bind event
+      if (this[eventId].observers.length > 0) {
+        // if true, bind event
+        this.videoPlayer.addEventListener(eventId, (e) => {
+          // run in zone
+          this._zoun.run(() => this[eventId].emit(e));
+        });
+      }
+    });
   }
 
   ngOnDestroy(): void {

@@ -1,3 +1,14 @@
+## 2.0.0
+
+### Feature
+* **Add `[videoId]`**: add videoId to set player video with `string` or `string[]`, and can change video with this `[input]`;
+* **Implement all youtube api options**: Now when children elements length is equal zero, stop drag event.
+* **Optimizate with event**: Bind youtube api event only when element output event has actual binding with method.
+
+### Break Change
+* **NgxY2PlayerOptions**: remove videoId, using `[input]` `[vidoeId]`.
+
+
 ## 1.4.1
 
 * **Change peerDependencies to more than 6.0.0:** Change peerDependencies to more than 6.0.0
