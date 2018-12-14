@@ -122,8 +122,9 @@ export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
     if (this.containerElm) { this.initHeight = this.containerElm.offsetHeight; }
 
     this.setInitStyle();
-    return;
+
     if (isPlatformServer(this.platformId)) { return; }
+
     this.loadYoutube().subscribe();
   }
 
@@ -135,7 +136,7 @@ export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
 
   private setInitStyle() {
     if (this.isAutoSize) {
-      this._render.setStyle(this._elm.nativeElement, 'padding-bottom', `${100 * (this.playerOptions.aspectRatio || defaultRatio)}%`);
+      this.setAutoSize();
     } else {
       this._render.setStyle(this._elm.nativeElement, 'width', `${this.playerOptions.width}px`);
       this._render.setStyle(this._elm.nativeElement, 'height', `${this.playerOptions.height}px`);
@@ -149,6 +150,19 @@ export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
         `url('https://img.youtube.com/vi/${id}/${this.playerOptions.thumbnail}')`
       );
     }
+  }
+
+  private setAutoSize() {
+    if (+this.initHeight !== 0) {
+      const width = this.initHeight / (this.playerOptions.aspectRatio || defaultRatio);
+      if (width < this.containerElm.offsetWidth) {
+        this._render.setStyle(this._elm.nativeElement, 'height', `${this.initHeight}px`);
+        this._render.setStyle(this._elm.nativeElement, 'width', `${width}px`);
+        return;
+      }
+    }
+    this._render.setStyle(this._elm.nativeElement, 'height', 0);
+    this._render.setStyle(this._elm.nativeElement, 'padding-bottom', `${100 * (this.playerOptions.aspectRatio || defaultRatio)}%`);
   }
 
   private loadYoutube() {

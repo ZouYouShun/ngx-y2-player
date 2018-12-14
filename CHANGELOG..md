@@ -19,6 +19,9 @@ type THUMBNAIL_TYPE =
 ### Bug Fix
 * **Resize problem with non container init height**: fix problem with resize when resize occur and the height out of bound problem.
 
+### Know Problem
+* **Server side render**: When set container with `width:100%` and has `height`, because server doesn't know the 100% acturl is what, so we only can use the height to caculate the width, but when the ration * height is more than width, the init view will see the error init view size.
+
 ## 2.0.0
 
 ### Feature
