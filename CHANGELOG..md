@@ -1,3 +1,24 @@
+## 2.1.0
+
+### Feature
+* **Add `[videoUrl]`**: can set url with youtube url that is similar with `[videoId]` can set `string` or `string[]`, and can change video with this `[input]`;
+* **Server side render support**: Now when support server side render with player, and we can set option with `thumbnail` by below options.
+```ts
+type THUMBNAIL_TYPE =
+  '0.jpg' |
+  '1.jpg' |
+  '2.jpg' |
+  '3.jpg' |
+  'default.jpg' |
+  'hqdefault.jpg' |
+  'mqdefault.jpg' |
+  'sddefault.jpg' |
+  'maxresdefault.jpg';
+```
+
+### Bug Fix
+* **Resize problem with non container init height**: fix problem with resize when resize occur and the height out of bound problem.
+
 ## 2.0.0
 
 ### Feature

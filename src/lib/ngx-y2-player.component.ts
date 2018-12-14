@@ -42,12 +42,19 @@ export interface NgxY2PlayerOptions {
   aspectRatio?: number;
 }
 
+// https://stackoverflow.com/questions/3452546/how-do-i-get-the-youtube-video-id-from-a-url
+export function getIdFromYoutubeUrl(url: string) {
+  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[7].length === 11) ? match[7] : '';
+}
+
 const defaultRatio = (9 / 16);
 
 @Component({
   selector: 'ngx-y2-player',
   styles: [
-    `:host{display:block;width:100%;background-size:cover;background-position:center;background:black}`
+    `:host{display:block;width:100%;background:black}`
   ],
   template: ``,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -56,9 +63,16 @@ export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
   @Input('playerOptions') playerOptions: NgxY2PlayerOptions;
   @Input('container') containerElm: HTMLElement;
 
+  @Input('videoUrl')
+  set videoUrl(value: string | string[]) {
+    if (value instanceof Array) {
+      this.videoId = value.map(v => getIdFromYoutubeUrl(v));
+    } else {
+      this.videoId = getIdFromYoutubeUrl(value);
+    }
+  }
   @Input('videoId')
   get videoId() {
-    // if there is not set id, use oprion's id
     return this._videoId;
   }
   set videoId(value) {
@@ -92,11 +106,9 @@ export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
 
   private _videoId: string | string[];
   private resize$: Subscription;
+  private initHeight = 0;
 
-  private isEqule = false;
-  get isAutoSize() {
-    return !(this.playerOptions.width !== 'auto' && this.playerOptions.height !== 'auto');
-  }
+  get isAutoSize() { return this.playerOptions.width === 'auto' || this.playerOptions.height === 'auto'; }
 
   constructor(
     private _y2: Y2PlayerService,
@@ -107,22 +119,36 @@ export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
   ) { }
 
   ngAfterViewInit(): void {
+    if (this.containerElm) { this.initHeight = this.containerElm.offsetHeight; }
 
+    this.setInitStyle();
+    return;
+    if (isPlatformServer(this.platformId)) { return; }
+    this.loadYoutube().subscribe();
+  }
+
+  ngOnDestroy(): void {
+    if (isPlatformServer(this.platformId)) { return; }
+    if (this.resize$) { this.resize$.unsubscribe(); }
+    if (this.videoPlayer) { this.videoPlayer.destroy(); }
+  }
+
+  private setInitStyle() {
     if (this.isAutoSize) {
       this._render.setStyle(this._elm.nativeElement, 'padding-bottom', `${100 * (this.playerOptions.aspectRatio || defaultRatio)}%`);
     } else {
       this._render.setStyle(this._elm.nativeElement, 'width', `${this.playerOptions.width}px`);
       this._render.setStyle(this._elm.nativeElement, 'height', `${this.playerOptions.height}px`);
     }
-
+    this._render.setStyle(this._elm.nativeElement, 'background-size', 'cover');
+    this._render.setStyle(this._elm.nativeElement, 'background-position', 'center');
     if (this.playerOptions.thumbnail) {
       const id = this.videoId instanceof Array ? this.videoId[0] : this.videoId;
-      this._render.setStyle(this._elm.nativeElement, 'background-image',
-        `url('https://i1.ytimg.com/vi/${id}/${this.playerOptions.thumbnail}')`);
+      this._render.setStyle(this._elm.nativeElement,
+        'background-image',
+        `url('https://img.youtube.com/vi/${id}/${this.playerOptions.thumbnail}')`
+      );
     }
-
-    if (isPlatformServer(this.platformId)) { return; }
-    this.loadYoutube().subscribe();
   }
 
   private loadYoutube() {
@@ -131,22 +157,22 @@ export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
       map(id => {
         let width;
         let height;
-        if (this.playerOptions.width !== 'auto' && this.playerOptions.height !== 'auto') {
-          width = this.playerOptions.width;
-          height = this.playerOptions.height;
-        } else {
+        if (this.isAutoSize) {
+
           ({ width, height } = this.getNowWidthAndHeight());
 
-          // if the init height is equal to now height, it mean this is an resize with width player
-          this.isEqule = height !== this.containerElm.offsetHeight;
-          this.resize$ = resizeObservable(this.containerElm, () => {
-            if (this.videoPlayer) {
-              ({ width, height } = this.getNowWidthAndHeight());
-              this.videoPlayer.setSize(width, height);
-            }
-          },
-            // init time is 200
+          this.resize$ = resizeObservable(this.containerElm,
+            () => {
+              if (this.videoPlayer) {
+                ({ width, height } = this.getNowWidthAndHeight());
+                this.videoPlayer.setSize(width, height);
+              }
+            },
+            // default time is 200
             (this.playerOptions.resizeDebounceTime !== undefined ? this.playerOptions.resizeDebounceTime : 200)).subscribe();
+        } else {
+          width = this.playerOptions.width;
+          height = this.playerOptions.height;
         }
         return { id, width, height };
       }),
@@ -172,25 +198,18 @@ export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
       }));
   }
 
-  ngOnDestroy(): void {
-    if (isPlatformServer(this.platformId)) { return; }
-    if (this.resize$) { this.resize$.unsubscribe(); }
-    if (this.videoPlayer) { this.videoPlayer.destroy(); }
-  }
-
   private checkAddAllYTEvent() {
 
     // check ready event
     if (this.videoId instanceof Array || this.onReady.observers.length > 0) {
       this.videoPlayer.addEventListener('onReady', (e) => {
 
-        const elm = this.videoPlayer.getIframe();
-        this._render.removeStyle(elm, 'padding-bottom');
-        this._render.removeStyle(elm, 'width');
-        this._render.removeStyle(elm, 'height');
-        this._render.removeStyle(elm, 'background-image');
-        this._render.removeStyle(elm, 'background-size');
-        this._render.removeStyle(elm, 'background-position');
+        this._render.removeStyle(this.iframeElement, 'padding-bottom');
+        this._render.removeStyle(this.iframeElement, 'width');
+        this._render.removeStyle(this.iframeElement, 'height');
+        this._render.removeStyle(this.iframeElement, 'background-image');
+        this._render.removeStyle(this.iframeElement, 'background-size');
+        this._render.removeStyle(this.iframeElement, 'background-position');
 
         if (this.onReady.observers.length > 0) {
           // run in zone
@@ -234,8 +253,8 @@ export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
     let width = this.containerElm.offsetWidth;
     let height = width * aspectRation;
 
-    if (!this.isEqule && height > this.containerElm.offsetHeight) {
-      height = this.containerElm.offsetHeight;
+    if (this.initHeight !== 0 && height > this.initHeight) {
+      height = this.initHeight;
       width = height / aspectRation;
     }
     // when height is bigger than window height

@@ -17,9 +17,7 @@ export function resizeObservable(elm: HTMLElement, cb: () => void, time = 200): 
     elmObserve$.observe(elm);
   }).pipe(
     debounceTime(time),
-    tap(() => {
-      cb();
-    }),
+    tap(() => cb()),
     finalize(() => {
       elmObserve$.unobserve(elm);
       elmObserve$.disconnect();
