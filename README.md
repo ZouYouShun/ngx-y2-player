@@ -2,7 +2,7 @@
 
 # ngx-y2-player
 
-Angular 6+ youtube player can auto resize with container, and full controll with [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference) support SSR.
+Angular 6+ youtube player can auto resize with container, and full controll with [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference) support SSR with preview image.
 
 ## Description
 
@@ -124,7 +124,7 @@ export class AppComponent {
 
 | Attribute | necessary |  type | description |
 | --------- | --------- | ---- | -------- |
-| `[videoId]` | yes | Input(`string` or `string[]`) | video id with player, accept with string or string array, change this input will change player video. |
+| `[videoId],[videoUrl]` | yes | Input(`string` or `string[]`) | video id or url with player, accept with string or string array, change this input will change player video. |
 | `[playerOptions]` | yes | Input(NgxY2PlayerOptions) | NgxY2PlayerOptions with [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference)  |
 | `[container]` | no | Input(Template Element) | when set width or height 'auto', it will use this element to set player size auto |
 | `(ready)` | no | Output(function($event)) | when video ready emit value |
@@ -141,9 +141,28 @@ export interface NgxY2PlayerOptions {
   height?: number | 'auto';
   playerVars?: YT.PlayerVars;
   host?: string;
+  thumbnail?: THUMBNAIL_TYPE;
 
   resizeDebounceTime?: number;
   aspectRatio?: number;
 }
 ```
 You can see all playerVars in the https://developers.google.com/youtube/player_parameters#Parameters
+
+### THUMBNAIL_TYPE
+
+```ts
+type THUMBNAIL_TYPE =
+  '0.jpg' |
+  '1.jpg' |
+  '2.jpg' |
+  '3.jpg' |
+  'default.jpg' |
+  'hqdefault.jpg' |
+  'mqdefault.jpg' |
+  'sddefault.jpg' |
+  'maxresdefault.jpg';
+```
+implement with
+https://gist.github.com/protrolium/8831763
+
