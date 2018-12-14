@@ -155,7 +155,7 @@ export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
   private setAutoSize() {
     if (+this.initHeight !== 0) {
       const width = this.initHeight / (this.playerOptions.aspectRatio || defaultRatio);
-      if (width < this.containerElm.offsetWidth) {
+      if (!this.containerElm.offsetWidth || width < this.containerElm.offsetWidth) {
         this._render.setStyle(this._elm.nativeElement, 'height', `${this.initHeight}px`);
         this._render.setStyle(this._elm.nativeElement, 'width', `${width}px`);
         return;
