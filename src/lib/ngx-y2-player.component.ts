@@ -215,32 +215,30 @@ export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
   private checkAddAllYTEvent() {
 
     // check ready event
-    if (this.videoId instanceof Array || this.onReady.observers.length > 0) {
-      this.videoPlayer.addEventListener('onReady', (e) => {
+    this.videoPlayer.addEventListener('onReady', (e) => {
 
-        this._render.removeStyle(this.iframeElement, 'padding-bottom');
-        this._render.removeStyle(this.iframeElement, 'width');
-        this._render.removeStyle(this.iframeElement, 'height');
-        this._render.removeStyle(this.iframeElement, 'background-image');
-        this._render.removeStyle(this.iframeElement, 'background-size');
-        this._render.removeStyle(this.iframeElement, 'background-position');
+      this._render.removeStyle(this.iframeElement, 'padding-bottom');
+      this._render.removeStyle(this.iframeElement, 'width');
+      this._render.removeStyle(this.iframeElement, 'height');
+      this._render.removeStyle(this.iframeElement, 'background-image');
+      this._render.removeStyle(this.iframeElement, 'background-size');
+      this._render.removeStyle(this.iframeElement, 'background-position');
 
-        if (this.onReady.observers.length > 0) {
-          // run in zone
-          this._zoun.run(() => this.onReady.emit(e));
-        }
+      if (this.onReady.observers.length > 0) {
+        // run in zone
+        this._zoun.run(() => this.onReady.emit(e));
+      }
 
-        if (this.videoId instanceof Array) {
-          if (this.playerOptions.playerVars) {
-            if (this.playerOptions.playerVars.autoplay) {
-              this.videoPlayer.loadPlaylist(this.videoId);
-            } else {
-              this.videoPlayer.cuePlaylist(this.videoId);
-            }
+      if (this.videoId instanceof Array) {
+        if (this.playerOptions.playerVars) {
+          if (this.playerOptions.playerVars.autoplay) {
+            this.videoPlayer.loadPlaylist(this.videoId);
+          } else {
+            this.videoPlayer.cuePlaylist(this.videoId);
           }
         }
-      });
-    }
+      }
+    });
 
     // check other event
     [

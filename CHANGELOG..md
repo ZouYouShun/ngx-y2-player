@@ -1,3 +1,8 @@
+## 2.1.1
+
+### Bug Fix
+* **remove height 0 with init**: fix problem with itit height and width.
+
 ## 2.1.0
 
 ### Feature

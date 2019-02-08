@@ -1,6 +1,6 @@
 {
   "name": "ngx-y2-player",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "dependencies": {
     "@types/youtube": "0.0.32",
     "resize-observer-polyfill": "^1.5.0",
