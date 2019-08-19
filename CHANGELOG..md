@@ -1,3 +1,7 @@
+## 3.0.0
+* **Upgrade Angular version**: upgrade angular version to v8.
+
+
 ## 2.1.1
 
 ### Bug Fix

@@ -1,6 +1,6 @@
 {
   "name": "ngx-y2-player",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "dependencies": {
     "resize-observer-polyfill": "^1.5.1",
     "hammerjs": "^2.0.8"
