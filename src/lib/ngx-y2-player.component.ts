@@ -24,11 +24,11 @@ type THUMBNAIL_TYPE =
   '1.jpg' |
   '2.jpg' |
   '3.jpg' |
-  'default.jpg' |
-  'hqdefault.jpg' |
-  'mqdefault.jpg' |
-  'sddefault.jpg' |
-  'maxresdefault.jpg';
+  'default.jpg' | // small
+  'mqdefault.jpg' | // medium
+  'hqdefault.jpg' | // bigger
+  'sddefault.jpg' | // large
+  'maxresdefault.jpg'; // bigest
 
 // thumbnail: https://gist.github.com/protrolium/8831763
 export interface NgxY2PlayerOptions {
@@ -94,12 +94,12 @@ export class NgxY2PlayerComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  @Output('ready') onReady = new EventEmitter();
-  @Output('stateChange') onStateChange = new EventEmitter();
-  @Output('playbackQualityChange') onPlaybackQualityChange = new EventEmitter();
-  @Output('playbackRateChange') onPlaybackRateChange = new EventEmitter();
-  @Output('error') onError = new EventEmitter();
-  @Output('apiChange') onApiChange = new EventEmitter();
+  @Output('ready') onReady = new EventEmitter<YT.PlayerEvent>();
+  @Output('stateChange') onStateChange = new EventEmitter<YT.PlayerEvent>();
+  @Output('playbackQualityChange') onPlaybackQualityChange = new EventEmitter<YT.PlayerEvent>();
+  @Output('playbackRateChange') onPlaybackRateChange = new EventEmitter<YT.PlayerEvent>();
+  @Output('error') onError = new EventEmitter<YT.PlayerEvent>();
+  @Output('apiChange') onApiChange = new EventEmitter<YT.PlayerEvent>();
 
   videoPlayer: YT.Player;
   iframeElement: HTMLIFrameElement;

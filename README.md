@@ -2,7 +2,7 @@
 
 # ngx-y2-player
 
-Angular 6+ youtube player can auto resize with container, and full controll with [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference) support SSR with preview image.
+Angular 8+ youtube player can auto resize with container, and full controll with [Youtube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference) support SSR with preview image.
 
 ## Description
 
