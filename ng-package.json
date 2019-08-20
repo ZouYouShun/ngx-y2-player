@@ -9,6 +9,7 @@
     }
   },
   "whitelistedNonPeerDependencies": [
+    "@types/youtube",
     "resize-observer-polyfill",
     "hammerjs"
   ]
